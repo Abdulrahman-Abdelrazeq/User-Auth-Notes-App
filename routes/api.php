@@ -38,5 +38,13 @@ Route::middleware('auth:sanctum')->group(function () {
 
 // CRUD operations for notes
 Route::middleware('auth:sanctum')->group(function () {
-    Route::apiResource('notes', NoteController::class);
+    Route::apiResource('/notes', NoteController::class)->names([
+        'index' => 'api.notes.index',
+        'create' => 'api.notes.create',
+        'store' => 'api.notes.store',
+        'show' => 'api.notes.show',
+        'edit' => 'api.notes.edit',
+        'update' => 'api.notes.update',
+        'destroy' => 'api.notes.destroy',
+    ]);
 });

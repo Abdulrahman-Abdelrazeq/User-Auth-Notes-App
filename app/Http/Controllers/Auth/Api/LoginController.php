@@ -19,7 +19,7 @@ class LoginController extends Controller
     {
         // Validate the login request
         $validator = Validator::make($request->all(), [
-            'email' => 'required|string|email|max:255',
+            'username' => 'required|string|lowercase|max:30|min:6',
             'password' => 'required|string|min:8',
         ]);
 
@@ -30,7 +30,7 @@ class LoginController extends Controller
         }
 
         // Attempt to login the user
-        if (!Auth::attempt($request->only('email', 'password'))) {
+        if (!Auth::attempt($request->only('username', 'password'))) {
             return response()->json([
                 'message' => 'Invalid login credentials',
             ], 401);

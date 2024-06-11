@@ -22,6 +22,7 @@ class RegisterController extends Controller
         // Validate the request
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
+            'username' => 'required|string|lowercase|max:30|min:6|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
         ]);
@@ -35,6 +36,7 @@ class RegisterController extends Controller
         // Create the user
         $user = User::create([
             'name' => $request->name,
+            'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
