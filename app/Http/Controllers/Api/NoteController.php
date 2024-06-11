@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Note;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+
 
 class NoteController extends Controller
 {
@@ -16,7 +18,7 @@ class NoteController extends Controller
      */
     public function index()
     {
-        $notes = Note::all();
+        $notes = Auth::user()->notes()->orderBy('created_at', 'desc')->paginate(6);
         return response()->json($notes);
     }
 
@@ -55,7 +57,7 @@ class NoteController extends Controller
      */
     public function show(Note $note)
     {
-        // $this->authorize('view', $note);
+        Gate::authorize('view', $note);
 
         return response()->json($note);
     }
@@ -69,7 +71,7 @@ class NoteController extends Controller
      */
     public function update(Request $request, Note $note)
     {
-        $this->authorize('update', $note);
+        Gate::authorize('update', $note);
 
         $request->validate([
             'title' => 'required|string|max:255',
@@ -94,7 +96,7 @@ class NoteController extends Controller
      */
     public function destroy(Note $note)
     {
-        $this->authorize('delete', $note);
+        Gate::authorize('delete', $note);
 
         $note->delete();
 
