@@ -41,6 +41,9 @@ class RegisterController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        // Send email verification notification
+        $user->sendEmailVerificationNotification();
+
         // Generate an API token for the user
         $token = $user->createToken('authToken')->plainTextToken;
 
